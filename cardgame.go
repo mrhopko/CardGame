@@ -58,7 +58,9 @@ func populateTemplates() map[string]*template.Template {
 func ReceiveFile(w http.ResponseWriter, r *http.Request) {
 	var Buf bytes.Buffer
 	// in your case file would be fileupload
-	file, header, err := r.FormFile("file")
+	r.ParseMultipartForm(32 << 20)
+
+	file, header, err := r.FormFile("uploadfile")
 	if err != nil {
 		panic(err)
 	}
