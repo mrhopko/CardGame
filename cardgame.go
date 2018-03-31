@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/csv"
-	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -62,14 +61,12 @@ func ReceiveFile(w http.ResponseWriter, r *http.Request) {
 	// in your case file would be fileupload
 	r.ParseMultipartForm(32 << 20)
 
-	file, header, err := r.FormFile("uploadfile")
+	file, _, err := r.FormFile("uploadfile")
 
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
-
-	fmt.Fprintf(w, "%v", header.Header)
 
 	reader := csv.NewReader(bufio.NewReader(file))
 
