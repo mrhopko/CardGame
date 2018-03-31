@@ -19,7 +19,7 @@ type CardHand struct {
 
 func init() {
 	r := newRouter()
-	http.ListenAndServe(":8080", r)
+	http.Handle("/", r)
 }
 
 func newRouter() *mux.Router {
