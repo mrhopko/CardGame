@@ -1,0 +1,20 @@
+{{define "cardhand"}}
+<table>
+    <tr>
+        {{range .Cards}}
+            <th>
+                <div>
+                    <div>
+                        <h3>
+                            {{.Category}}
+                        </h3>
+                    </div>
+                    <div>
+                        {{.Title}}
+                    </div>
+                </div>
+            </th>
+        {{end}}
+    </tr>
+</table>
+{{end}}
