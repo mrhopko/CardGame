@@ -72,7 +72,8 @@ func ReceiveFile(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%v", header.Header)
 
 	reader := csv.NewReader(bufio.NewReader(file))
-	var deck []Card
+
+	var deck []*Card
 	for {
 		line, error := reader.Read()
 		if error == io.EOF {
@@ -80,15 +81,17 @@ func ReceiveFile(w http.ResponseWriter, r *http.Request) {
 		} else if error != nil {
 			log.Fatal(error)
 		}
-		deck = append(deck, Card{
+		deck = append(deck, &Card{
 			Category: line[0],
 			Title:    line[1],
 			Picture:  "picture",
 		})
 	}
+
+	PlayerCards := CardHand{Cards: deck}
+
 	Buf.Reset()
 
 	t := populateTemplates()
-
-	t["layout"].Execute(w, deck)
+	t["layout"].Execute(w, PlayerCards)
 }
