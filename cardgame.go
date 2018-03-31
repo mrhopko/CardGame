@@ -19,12 +19,12 @@ type CardHand struct {
 
 func init() {
 	r := newRouter()
-	http.ListenAndServe(":8000", r)
+	http.ListenAndServe(":8080", r)
 }
 
 func newRouter() *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/home", handler).Methods("GET")
+	r.HandleFunc("/", handler).Methods("GET")
 	return r
 }
 
