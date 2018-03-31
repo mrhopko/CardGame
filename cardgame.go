@@ -42,7 +42,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func populateTemplates() map[string]*template.Template {
-	const viewPath = "CardGame/view/"
+	const viewPath = "view/"
 	t := make(map[string]*template.Template)
 	layout := template.Must(template.ParseFiles(viewPath + "layout.html"))
 	template.Must(layout.ParseFiles(viewPath + "cardhand.html"))
