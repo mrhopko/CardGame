@@ -1,12 +1,14 @@
 package cardgame
 
 import (
+	"bufio"
 	"bytes"
+	"encoding/csv"
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
-	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -61,23 +63,32 @@ func ReceiveFile(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(32 << 20)
 
 	file, header, err := r.FormFile("uploadfile")
+
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
-	name := strings.Split(header.Filename, ".")
-	fmt.Printf("File name %s\n", name[0])
-	// Copy the file data to my buffer
-	io.Copy(&Buf, file)
-	// do something with the contents...
-	// I normally have a struct defined and unmarshal into a struct, but this will
-	// work as an example
-	contents := Buf.String()
-	fmt.Println(contents)
-	// I reset the buffer in case I want to use it again
-	// reduces memory allocations in more intense projects
+
+	fmt.Fprintf(w, "%v", header.Header)
+
+	reader := csv.NewReader(bufio.NewReader(file))
+	var deck []Card
+	for {
+		line, error := reader.Read()
+		if error == io.EOF {
+			break
+		} else if error != nil {
+			log.Fatal(error)
+		}
+		deck = append(deck, Card{
+			Category: line[0],
+			Title:    line[1],
+			Picture:  "picture",
+		})
+	}
 	Buf.Reset()
-	// do something else
-	// etc write header
-	return
+
+	t := populateTemplates()
+
+	t["layout"].Execute(w, deck)
 }
