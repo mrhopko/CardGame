@@ -1,0 +1,32 @@
+Create a datastore
+deck - card
+
+deck
+upload deck
+view deck
+save deck
+delete deck
+
+hand
+deal hand from deck
+view hand
+
+
+gcloud commands
+
+INIT 
+gcloud init - get started, setup project/default project
+
+START datastore
+gcloud beta emulators datastore start [flags]
+gcloud beta emulators datastore env-init > set_vars.cmd && set_vars.cmd
+
+SET DATASTORE EMULATOR ENVIRONMENT VARIABLES
+gcloud beta emulators datastore env-init > set_vars.cmd && set_vars.cmd
+
+LIST INSTALLED COMPONENTS
+gcloud components list
+
+RUN LOCAL DEV
+needs to be python 2.7 (check path order)
+python "C:\Users\there\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin\dev_appserver.py" app.yaml
